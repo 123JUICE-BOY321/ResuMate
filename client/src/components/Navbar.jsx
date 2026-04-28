@@ -1,8 +1,10 @@
 import React from 'react';
 import { BrainCircuit, Settings, LogOut } from 'lucide-react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { useApp } from '../context/AppContext';
 
-const NavBar = ({ user, handleLogout }) => {
+const NavBar = () => {
+  const { user, handleLogout } = useApp();
   const location = useLocation();
   const navigate = useNavigate();
   const view = location.pathname.substring(1) || 'landing';

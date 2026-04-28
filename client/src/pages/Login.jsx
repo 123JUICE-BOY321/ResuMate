@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { login, signup, setAuthToken } from '../api';
+import { useApp } from '../context/AppContext';
 
-const Login = ({ setUser }) => {
+const Login = () => {
+  const { setUser } = useApp();
   const [isLogin, setIsLogin] = useState(true);
   const [authEmail, setAuthEmail] = useState('');
   const [authPassword, setAuthPassword] = useState('');

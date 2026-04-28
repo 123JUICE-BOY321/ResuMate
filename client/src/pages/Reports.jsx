@@ -3,8 +3,10 @@ import { useNavigate } from 'react-router-dom';
 import { Lock, LayoutDashboard, FileUp, Activity, BarChart2, Trophy, History as HistoryIcon, FileSearch, FileText, Calendar, ArrowRight } from 'lucide-react';
 import CircularProgress from '../components/CircularProgress';
 import { getReports } from '../api';
+import { useApp } from '../context/AppContext';
 
-const Reports = ({ user, setAnalysisResult, setExtractedText, setSelectedFile }) => {
+const Reports = () => {
+  const { user, setAnalysisResult, setExtractedText, setSelectedFile } = useApp();
   const navigate = useNavigate();
   const [reports, setReports] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -104,7 +106,15 @@ const Reports = ({ user, setAnalysisResult, setExtractedText, setSelectedFile })
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
         {reports.map(report => (
           <div key={report._id} onClick={() => { 
-              const fullResult = { ...report.result, fileName: report.fileName, date: report.date };
+              const fullResult = { 
+                  ...report.result, 
+                  fileName: report.fileName, 
+                  date: report.date, 
+                  imagePreview: report.imagePreview, 
+                  highlightCoords: (report.highlightCoords && report.highlightCoords.length > 0) 
+                                      ? report.highlightCoords 
+                                      : ((report.result && report.result.highlightCoords) || []) 
+              };
               setAnalysisResult(fullResult); 
               setExtractedText(report.rawText || ""); 
               setSelectedFile({ name: report.fileName, type: report.fileName.endsWith('.pdf') ? 'application/pdf' : '' }); 

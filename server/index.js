@@ -3,6 +3,8 @@ const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
 
+const connectDB = require('./config/db');
+
 const app = express();
 
 // Middleware
@@ -10,13 +12,7 @@ app.use(express.json({ limit: '10mb' }));
 app.use(cors());
 
 // DB Config
-const db = process.env.MONGO_URI;
-
-// Connect to MongoDB
-mongoose
-  .connect(db)
-  .then(() => console.log('MongoDB Connected...'))
-  .catch(err => console.log(err));
+connectDB();
 
 // Routes
 app.use('/api/auth', require('./routes/auth'));

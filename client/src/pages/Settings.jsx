@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { updateUser, deleteUser } from '../api';
+import { useApp } from '../context/AppContext';
 
-const Settings = ({ user, setUser, handleLogout }) => {
+const Settings = () => {
+  const { user, setUser, handleLogout } = useApp();
   const [editName, setEditName] = useState(user?.name || '');
   const [editPassword, setEditPassword] = useState('');
   const navigate = useNavigate();

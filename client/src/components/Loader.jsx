@@ -1,6 +1,8 @@
 import React from 'react';
+import { useApp } from '../context/AppContext';
 
-const Loader = ({ analyzingStep }) => {
+const Loader = () => {
+  const { analyzingStep } = useApp();
   const steps = [
     "Preparing secure parser...",
     "Extracting document text...",

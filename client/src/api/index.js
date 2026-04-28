@@ -46,8 +46,8 @@ export const saveReport = async (reportData) => {
     return res.data;
 };
 
-export const analyzeResume = async (resumeText) => {
-    const res = await api.post('/analyze', { resumeText });
+export const analyzeResume = async (resumeText, jdText = "") => {
+    const res = await api.post('/analyze', { resumeText, jdText });
     return res.data;
 };
 
