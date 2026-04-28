@@ -1,7 +1,7 @@
 import React from 'react';
 import { Routes, Route } from 'react-router-dom';
 import { AppContextProvider } from './context/AppContext';
-import NavBar from './components/NavBar';
+import Navbar from './components/NavBar';
 import Footer from './components/Footer';
 import Home from './pages/Home';
 import Login from './pages/Login';
@@ -17,7 +17,7 @@ export default function App() {
     <AppContextProvider>
       <div className="min-h-screen flex flex-col font-sans text-slate-50 overflow-x-hidden selection:bg-sky-500/30 relative bg-slate-950">
         <Background />
-        <NavBar />
+        <Navbar />
         <main className="relative flex-grow flex flex-col items-center w-full">
           <Routes>
             <Route path="/" element={<Home />} />
