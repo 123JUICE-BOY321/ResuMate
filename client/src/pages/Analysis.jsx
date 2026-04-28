@@ -113,6 +113,8 @@ const Analysis = () => {
                 {data.date || new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
              </span>
           </div>
+        </div>
+      </div>
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 h-full min-h-[75vh]">
         
         {/* Left Column - Metrics & Text */}
@@ -206,6 +208,8 @@ const Analysis = () => {
                 </div>
              </div>
          </div>
+          </div>
+        </div>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-8">
