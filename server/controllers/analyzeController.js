@@ -75,7 +75,22 @@ exports.analyzeResume = async (req, res) => {
             }
         });
 
-        const parsedResult = JSON.parse(response.text);
+        let text = response.text;
+        
+        // Robustly extract JSON from markdown code blocks if present
+        const jsonMatch = text.match(/```(?:json)?\n?([\s\S]*?)\n?```/);
+        if (jsonMatch) {
+            text = jsonMatch[1].trim();
+        } else {
+            // Fallback: if no code blocks, try to find the first { and last }
+            const firstBrace = text.indexOf('{');
+            const lastBrace = text.lastIndexOf('}');
+            if (firstBrace !== -1 && lastBrace !== -1 && lastBrace > firstBrace) {
+                text = text.substring(firstBrace, lastBrace + 1);
+            }
+        }
+
+        const parsedResult = JSON.parse(text);
         res.json(parsedResult);
     } catch (err) {
         console.error("Gemini API Error:", err.message);
