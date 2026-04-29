@@ -2,8 +2,6 @@
 
 ResuMate is a premium, AI-powered resume analysis and ATS scoring platform. It helps job seekers optimize their resumes by providing deep insights, keyword matching, and actionable feedback using state-of-the-art LLMs (Google Gemini).
 
-![ResuMate Banner](https://api.dicebear.com/7.x/notionists/svg?seed=ResuMate&backgroundColor=0f172a)
-
 ## ✨ Features
 
 - **AI Scoring Engine**: Get an instant ATS compatibility score based on industry standards.
