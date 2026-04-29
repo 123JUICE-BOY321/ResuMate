@@ -115,28 +115,22 @@ const Analysis = () => {
           </div>
         </div>
       </div>
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 h-full min-h-[75vh]">
+      {/* Top Row - All Scores in one line */}
+      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 mb-8">
         
-        {/* Left Column - Metrics & Text */}
-        <div className="lg:col-span-4 flex flex-col gap-8 h-full">
-          
-          {/* Header Card */}
-          <div className="bg-slate-900/40 backdrop-blur-xl rounded-3xl border border-white/10 p-8 flex flex-col items-center justify-center shadow-2xl relative overflow-hidden">
-             <div className="absolute top-0 inset-x-0 h-1 bg-gradient-to-r from-sky-400 via-blue-500 to-purple-500"></div>
-             <h2 className="text-sm font-bold text-slate-400 uppercase tracking-widest mb-6">Total Score</h2>
-             
-             <div className="relative w-32 h-32 rounded-full flex items-center justify-center border-[6px] border-slate-800 shadow-inner bg-slate-950">
-                <svg className="absolute inset-0 w-full h-full -rotate-90">
-                  <circle cx="50%" cy="50%" r="46%" className="stroke-slate-800 fill-none" strokeWidth="8"></circle>
-                  <circle cx="50%" cy="50%" r="46%" className="stroke-sky-500 fill-none transition-all duration-1000 ease-out" strokeWidth="8" strokeDasharray="300" strokeDashoffset={300 - (300 * (data.overallScore || 0)) / 100} strokeLinecap="round"></circle>
-                </svg>
-                <div className="text-5xl font-black text-white">
-                  {data.overallScore}
-                </div>
-            </div>
-         </div>
+        {/* Total Score Card */}
+        <div className="col-span-1 p-[2px] rounded-2xl bg-gradient-to-br from-sky-400 to-blue-600 shadow-[0_0_25px_rgba(56,189,248,0.2)] hover:shadow-[0_0_35px_rgba(56,189,248,0.4)] transition-all duration-500 group min-h-[140px] flex">
+           <div className="bg-slate-950/90 backdrop-blur-xl rounded-[14px] flex-grow flex flex-col items-center justify-center p-4 relative overflow-hidden">
+               <div className="absolute inset-0 bg-sky-500/5 opacity-0 group-hover:opacity-100 transition-opacity"></div>
+               <span className="text-[10px] uppercase tracking-[0.2em] text-sky-400 font-black mb-1 relative z-10">ATS Score</span>
+               <div className="text-5xl font-black text-white tracking-tighter relative z-10 group-hover:scale-110 transition-transform duration-500">
+                 {data.overallScore || 0}
+               </div>
+               <div className="mt-2 w-10 h-1 bg-sky-500/30 rounded-full relative z-10"></div>
+           </div>
+        </div>
 
-        {['ats', 'keywords', 'readability', 'formatting', 'structure'].map((key, idx) => {
+        {['ats', 'keywords', 'readability', 'formatting', 'structure'].map((key) => {
           const normalizedMetrics = Object.keys(data.metrics || {}).reduce((acc, k) => {
             acc[k.toLowerCase()] = data.metrics[k];
             return acc;
@@ -144,9 +138,9 @@ const Analysis = () => {
           const metric = normalizedMetrics[key.toLowerCase()] || { score: 0 };
           const config = METRIC_CONFIG[key];
           return (
-            <div key={key} className="col-span-1 bg-slate-900/40 backdrop-blur-xl rounded-2xl border border-white/10 p-4 flex flex-col items-center justify-center shadow-2xl hover:bg-slate-800/90 transition-colors group">
-              <CircularProgress value={Number(metric.score) || 0} size="md" color={config.color} />
-              <div className={`mt-3 flex flex-col items-center gap-1.5 ${config.color}`}>
+            <div key={key} className="bg-slate-900/40 backdrop-blur-xl rounded-2xl border border-white/10 p-4 flex flex-col items-center justify-center shadow-2xl hover:bg-slate-800/90 transition-all duration-300 group">
+              <CircularProgress value={Number(metric.score) || 0} size="sm" color={config.color} />
+              <div className={`mt-3 flex flex-col items-center gap-1 ${config.color}`}>
                   <div className="group-hover:scale-110 transition-transform duration-300">
                     {getIconComponent(config.icon)}
                   </div>
@@ -157,59 +151,63 @@ const Analysis = () => {
         })}
       </div>
 
-      {/* Middle Column - Details */}
-      <div className="lg:col-span-4 flex flex-col gap-6">
-         
-         {/* Profile Snippet */}
+      {/* Row 2 - Profile and other summary info */}
+      <div className="grid grid-cols-1 gap-8 mb-8">
+         {/* Profile Card */}
          <div className="bg-slate-900/40 backdrop-blur-xl rounded-3xl border border-white/10 p-6 shadow-2xl">
-         <h3 className="text-lg font-bold text-white mb-6 flex items-center gap-2 border-b border-white/10 pb-4">
-           <User className="w-5 h-5 text-teal-400"/> Profile
-         </h3>
+            <h3 className="text-lg font-bold text-white mb-6 flex items-center gap-2 border-b border-white/10 pb-4">
+              <User className="w-5 h-5 text-teal-400"/> Profile Summary
+            </h3>
 
-            <div className="flex flex-col gap-6">
-              <div className="flex flex-col sm:flex-row flex-wrap items-start gap-x-12 gap-y-6 w-full">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+               <div className="flex flex-col gap-6">
                   {data.jobRole && (
                     <div>
                        <p className="text-[10px] text-slate-500 uppercase font-bold tracking-wider mb-2">Target Role</p>
-                       <p className="text-white font-medium">{data.jobRole}</p>
+                       <p className="text-white font-medium text-lg">{data.jobRole}</p>
                     </div>
                   )}
 
                   <div>
-                      <p className="text-[10px] text-slate-500 uppercase font-bold tracking-wider mb-2">Experience</p>
-                      <div className="inline-flex items-center gap-1.5 px-2.5 py-1 bg-white/5 border border-white/10 rounded text-white text-xs">
+                      <p className="text-[10px] text-slate-500 uppercase font-bold tracking-wider mb-2">Experience Level</p>
+                      <div className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-white/5 border border-white/10 rounded-lg text-white text-sm font-medium">
                           {normalizedExtractedData?.experiencelevel || 'Not detected'}
                       </div>
                   </div>
+               </div>
 
+               <div className="flex flex-col gap-6">
                  {normalizedExtractedData?.education?.[0] && (
-                  <div className="flex-1 min-w-[200px]">
-                      <p className="text-[10px] text-slate-500 uppercase font-bold tracking-wider mb-2">Education</p>
-                      <p className="text-white text-sm font-bold truncate" title={normalizedExtractedData.education[0].degree}>
-                         {normalizedExtractedData.education[0].degree}
-                      </p>
-                      <p className="text-slate-400 text-xs mt-0.5 truncate pl-5.5">{normalizedExtractedData.education[0].institution}</p>
-                      <p className="text-slate-500 text-xs mt-0.5 pl-5.5">{normalizedExtractedData.education[0].year}</p>
+                  <div>
+                      <p className="text-[10px] text-slate-500 uppercase font-bold tracking-wider mb-2">Primary Education</p>
+                      <div className="bg-white/5 rounded-xl p-4 border border-white/10">
+                        <p className="text-white text-sm font-bold" title={normalizedExtractedData.education[0].degree}>
+                           {normalizedExtractedData.education[0].degree}
+                        </p>
+                        <p className="text-slate-400 text-xs mt-1">{normalizedExtractedData.education[0].institution}</p>
+                        <p className="text-slate-500 text-[10px] mt-1 flex items-center gap-1">
+                          <Calendar className="w-3 h-3"/> {normalizedExtractedData.education[0].year}
+                        </p>
+                      </div>
                   </div>
                  )}
-             </div>
+               </div>
 
-             <div className="w-full">
-                <p className="text-[10px] text-slate-500 uppercase font-bold tracking-wider mb-2">Top Skills Detected</p>
-                <div className="flex flex-wrap gap-2">
-                   {Array.isArray(normalizedExtractedData?.skills) && normalizedExtractedData.skills.map((skill, idx) => {
-                      const skillText = typeof skill === 'string' ? skill : (skill?.name || skill?.skill || skill?.keyword || JSON.stringify(skill));
-                      return (
-                        <span key={idx} className="px-2 py-1 bg-sky-900/30 border border-sky-400/20 text-sky-300 text-xs rounded-md">
-                          {String(skillText)}
-                        </span>
-                      )
-                   })}
-                </div>
-             </div>
+               <div>
+                  <p className="text-[10px] text-slate-500 uppercase font-bold tracking-wider mb-3">Top Skills Detected</p>
+                  <div className="flex flex-wrap gap-2">
+                     {Array.isArray(normalizedExtractedData?.skills) && normalizedExtractedData.skills.slice(0, 8).map((skill, idx) => {
+                        const skillText = typeof skill === 'string' ? skill : (skill?.name || skill?.skill || skill?.keyword || JSON.stringify(skill));
+                        return (
+                          <span key={idx} className="px-3 py-1.5 bg-sky-900/30 border border-sky-400/20 text-sky-300 text-xs rounded-lg font-medium">
+                            {String(skillText)}
+                          </span>
+                        )
+                     })}
+                  </div>
+               </div>
+            </div>
          </div>
-          </div>
-        </div>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-8">
